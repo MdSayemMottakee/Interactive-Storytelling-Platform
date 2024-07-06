@@ -16,7 +16,7 @@ class ForgetPasswordPage extends StatefulWidget {
 class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
   final _forgetPasswordFormKey = GlobalKey<FormState>();
-
+  final TextEditingController _emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -41,6 +41,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                             labelText: 'Email',
                             hintText: 'Your email id',
                             isDense: true,
+                            controller: _emailController,
                             validator: (textValue) {
                               if(textValue == null || textValue.isEmpty) {
                                 return 'Email is required!';
@@ -49,7 +50,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                                 return 'Please enter a valid email';
                               }
                               return null;
-                            }
+                            },
                         ),
                         const SizedBox(height: 20,),
                         CustomFormButton(innerText: 'Submit', onPressed: _handleForgetPassword,),

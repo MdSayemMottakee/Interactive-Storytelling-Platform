@@ -6,12 +6,13 @@ import 'package:intl/intl.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
+import 'package:login_signup/components/common/page_heading.dart';
 import 'package:login_signup/components/login_page.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:login_signup/components/common/page_header.dart';
 
 class SignupPage extends StatefulWidget {
-  const SignupPage({Key? key}) : super(key: key);
+  const SignupPage({super.key});
 
   @override
   _SignupPageState createState() => _SignupPageState();
@@ -80,7 +81,6 @@ Future<void> _handleSignupUser() async {
 
     // Check if profile image is selected
     if (_profileImageFile == null && _profileImageBytes == null) {
-      print('No profile image selected.');
       _scaffoldMessengerKey.currentState?.showSnackBar(
         const SnackBar(content: Text('Please select a profile image.')),
       );
@@ -96,27 +96,19 @@ Future<void> _handleSignupUser() async {
 
       // Upload profile image if available
       if (_profileImageFile != null) {
-        print('Uploading profile image from file...');
         profileImageUrl = await uploadProfileImageFile(_profileImageFile!);
-        print('Profile image uploaded: $profileImageUrl');
       } else if (_profileImageBytes != null) {
-        print('Uploading profile image from bytes...');
         profileImageUrl = await uploadProfileImageBytes(_profileImageBytes!);
-        print('Profile image uploaded: $profileImageUrl');
-      } else {
-        print('No profile image selected.');
       }
 
       // Check if the widget is still mounted before accessing context
       if (!mounted) {
-        print('Widget is not mounted.');
         return;
       }
-
-      print('Storing user data in Firestore...');
       await FirebaseFirestore.instance.collection('users').add({
         'name': _nameController.text.trim(),
         'email': _emailController.text.trim(),
+        'password' :_passwordController.text.trim(),
         'contact': _contactController.text.trim(),
         'birthday': _selectedBirthday != null
             ? DateFormat('yyyy-MM-dd').format(_selectedBirthday!)
@@ -124,11 +116,8 @@ Future<void> _handleSignupUser() async {
         'country': _selectedCountry ?? '',
         'gender': _selectedGender ?? '',
         'photoURL': profileImageUrl ?? '',
-        // Add more fields as needed
+
       });
-
-      print('User data stored successfully.');
-
       // Navigate to the login page after successful signup
       Navigator.pushReplacement(
         context,
@@ -136,14 +125,11 @@ Future<void> _handleSignupUser() async {
       );
     } catch (e) {
       // Error handling
-      print('Failed to sign up: $e');
       _scaffoldMessengerKey.currentState?.showSnackBar(
         SnackBar(content: Text('Failed to sign up: $e')),
       );
     }
-  } else {
-    print('Form validation failed.');
-  }
+  } 
 }
 
 
@@ -231,17 +217,10 @@ Future<String> uploadProfileImageFile(File imageFile) async {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  const PageHeader(),
                   // Header widgets
                   const SizedBox(height: 16),
-                  const Text(
-                    'Sign Up',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
+                  const PageHeading(title: 'Sign Up',),
                   const SizedBox(height: 16),
                   const SizedBox(height: 20),
                   Center(
@@ -404,7 +383,27 @@ Future<String> uploadProfileImageFile(File imageFile) async {
                       child: DropdownButtonFormField<String>(
                         value: _selectedCountry,
                         hint: const Text('Select Country'),
-                        items: ['Country A', 'Country B', 'Country C']
+                        items: ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia",
+                                "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin",
+                                "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi",
+                                "Cabo Verde", "Cambodia", "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia",
+                                "Comoros", "Congo, Democratic Republic of the", "Congo, Republic of the", "Costa Rica", "Croatia", "Cuba", "Cyprus",
+                                "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "East Timor", "Ecuador", "Egypt",
+                                "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland", "France",
+                                "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana",
+                                "Haiti", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Italy",
+                                "Ivory Coast", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Korea, North", "Korea, South", "Kosovo",
+                                "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania",
+                                "Luxembourg", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania",
+                                "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar",
+                                "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Macedonia", "Norway",
+                                "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland",
+                                "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines",
+                                "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore",
+                                "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname",
+                                "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Togo", "Tonga", "Trinidad and Tobago",
+                                "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States",
+                                "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"]
                             .map((label) => DropdownMenuItem(
                                   value: label,
                                   child: Text(label),
