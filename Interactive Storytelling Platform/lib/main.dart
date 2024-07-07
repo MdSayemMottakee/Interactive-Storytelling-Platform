@@ -6,14 +6,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter is initialized
   await Firebase.initializeApp(
     options: const FirebaseOptions(
-      apiKey: "AIzaSyDUZXuhQnvS3fw2RxEtKIsdgFqi4HsQsco",
-      authDomain: "interactive-storytelling-1323c.firebaseapp.com",
-      databaseURL: "https://interactive-storytelling-1323c-default-rtdb.asia-southeast1.firebasedatabase.app/",
-      projectId: "interactive-storytelling-1323c",
-      storageBucket: "interactive-storytelling-1323c.appspot.com",
-      messagingSenderId: "120027546584",
-      appId: "1:120027546584:web:91120db9ac0d769526a8ad",
-      measurementId: "G-0KTH0HS81G"
+      apiKey: 'AIzaSyDUZXuhQnvS3fw2RxEtKIsdgFqi4HsQsco',
+      authDomain: 'interactive-storytelling-1323c.firebaseapp.com',
+      databaseURL: 'https://interactive-storytelling-1323c-default-rtdb.asia-southeast1.firebasedatabase.app/',
+      projectId: 'interactive-storytelling-1323c',
+      storageBucket: 'interactive-storytelling-1323c.appspot.com',
+      messagingSenderId: '120027546584',
+      appId: '1:120027546584:web:91120db9ac0d769526a8ad',
+      measurementId: 'G-0KTH0HS81G'
     ),
   );
   runApp(const MyApp());

@@ -168,6 +168,7 @@ Future<void> _handleLoginUser() async {
 
         // Navigate to user profile page or perform other actions
         Navigator.pushReplacement(
+          // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(
             builder: (context) => UserProfile(
